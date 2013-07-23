@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "domainjiffy",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "express": "3.3.4",
-    "ejs": "*"
+    "ejs": "0.8.4"
   }
 }
