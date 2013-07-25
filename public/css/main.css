@@ -1,4 +1,4 @@
-#selectedElements div.ui-widget-content {
+#selectedElements div.ui-widget-content, #availableElements div.ui-widget-content {
     text-align: center;
 }
 

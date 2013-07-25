@@ -1,3 +1,4 @@
+"use strict";
 $(function () {
     // Used to determine when a selected item is being dragged out of its box for removal.
     var toBeRemoved = false;
