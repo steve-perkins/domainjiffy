@@ -68,11 +68,19 @@ $(function () {
         $("#generatedResults div div.well").html("");
         $("#generatedResults").slideDown("slow");
         $("#selectedElements div.ui-widget-content div").each(function (index, value) {
-            var id = $(value).attr("id");
-            if (id === "exactWord" || id === "synonyms") {
-                id += ":" + $(value).find("input").val().replace(/ /g, '');
+            // Parse the selected element type, and additional input if the type takes input.
+            var element = $(value).attr("id");
+            if (element === "exactWord" || element === "synonyms") {
+                var input = $(value).find("input").val().replace(/ /g, '');
+                // Basic input sanitize.  Strip all characters except letters, numbers, and dashes.
+                input = input.toLowerCase().replace(/[^-a-z0-9]/g, "");
+                element += ":" + input;
             }
-            $("#generatedResults div div.well").append(id + "<br/>");
+
+            // TODO: Collect all elements and make AJAX call
+
+            // TODO: Display results from AJAX call
+            $("#generatedResults div div.well").append(element + "<br/>");
         });
     });
 });
