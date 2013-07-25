@@ -14,6 +14,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Racing+Sans+One' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         body {
@@ -29,7 +33,7 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 
-<body style="background-image: url(/img/brushed-metal.jpg); background-size: 100% auto;">
+<body style="background: url(img/blue-stripe.png) lightblue; font-family: 'Open Sans', sans-serif;">
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
@@ -39,22 +43,24 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <i class="icon-white icon-plus"></i>
-            </a>
+            <!-- For now, Bootstrap's nav-collapse is not compatible with the jQuery UI items. -->
+            <!--
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+            -->
             <a class="brand" href="/" style="position: absolute;">
-                <img src="http://placehold.it/70x70" title="Small DomainJiffy Logo"/>
+                <img src="img/jiffyman-square-70x64.png" style="background-color: ghostwhite"/>
             </a>
 
             <div class="nav-collapse collapse">
-                <!--<ul class="nav pull-left">-->
-                    <!--<li><a href="/" class="brand">DomainJiffy</a></li>-->
-                <!--</ul>-->
                 <ul class="nav pull-right">
-                    <li><span class="brand">Tagline goes here...</span></li>
-                    <li><a href="#"><img src="http://placehold.it/60x25" title="Like on Facebook"/></a></li>
-                    <li><a href="#"><img src="http://placehold.it/60x25" title="Tweet on Twitter"/></a></li>
-                    <li><a href="#"><img src="http://placehold.it/60x25" title="Other Social Media?"/></a></li>
+                    <li><span class="brand">The most advanced source for unique domain name ideas</span></li>
+                    <li class=""><a href="#"><img src="http://placehold.it/60x25" title="Like on Facebook"/></a></li>
+                    <li class=""><a href="#"><img src="http://placehold.it/60x25" title="Tweet on Twitter"/></a></li>
+                    <li class=""><a href="#"><img src="http://placehold.it/60x25" title="Other Social Media?"/></a></li>
                 </ul>
             </div>
         </div>
@@ -65,16 +71,30 @@
     <div class="row-fluid">
         <div class="span3" style="padding: 20px; text-align: center;">
             <br/>
-            <img src="http://placehold.it/250x150" title="Big DomainJiffy Logo"/>
+
+            <div style="height: 250; width: 150; color: white; text-align: center; vertical-align: center;">
+                <div style="font-family: 'Carrois Gothic SC', sans-serif; font-size: 300%; text-shadow: 0px 1px 0px #fff, -3px 5px 0px rgba(0,0,0,0.5);">
+                    Domain
+                </div>
+                <!--<div style="font-family: 'Roboto', sans-serif; font-size: 300%; text-shadow: 0px 1px 0px #fff, -3px 3px 0px rgba(0,0,0,0.5);">Domain</div>-->
+                <div style="font-family: 'Racing Sans One', cursive; font-size: 500%; text-shadow: 0px 3px 0px #fff, -9px 8px 0px rgba(0,0,0,0.5);">
+                    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jiffy
+                </div>
+                <br/>
+            </div>
             <br/><br/>
-            <div class="well">Extended tagline and/or descriptive instructions go here...</div>
+
+            <div class="well" style="background: ghostwhite">
+                Extended tagline and/or descriptive instructions go here...
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            </div>
         </div>
         <div class="span6" style="padding: 20px">
             <div class="row">
                 <div class="span10 offset1">
-                    Selected elements:
+                    <div style="color: #ffffff">Selected elements:</div>
                     <div id="selectedElements">
-                        <div class="ui-widget-content">
+                        <div class="ui-widget-content" style="background: #dddddd">
                             <div class="placeholder">Drag 1 or 2 elements here</div>
                         </div>
                     </div>
@@ -82,60 +102,73 @@
             </div>
             <div class="row">
                 <div class="span12" style="margin-top: 30px">
-                    Available elements:
+                    <div style="color: #ffffff">Available elements:</div>
                     <div id="availableElements">
-                        <div class="ui-widget-content">
-                            <div id="exactWord" class="exactWord">Exact Word
-                                <br>
-                                <input type="text" name="exact"/>
-                                <br> <span style="font-size: 75%">This is a
+                        <div class="ui-widget-content" style="background: black">
+
+                                <div id="exactWord" class="exactWord">Exact Word
+                                    <br>
+                                    <input type="text" name="exact"/>
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
-                            <div id="synonyms">Synonyms
-                                <br>
-                                <input type="text" name="synonym"/>
-                                <br> <span style="font-size: 75%">This is a
+                                </div>
+                                <div id="synonyms">Synonyms
+                                    <br>
+                                    <input type="text" name="synonym"/>
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
-                            <div id="nouns">Common Nouns
-                                <br> <span style="font-size: 75%">This is a
+                                </div>
+                                <div id="nouns">Common Nouns
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
-                            <div id="verbs">Common Verbs
-                                <br> <span style="font-size: 75%">This is a
+                                </div>
+                                <div id="verbs">Common Verbs
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
-                            <div id="adjectives">Common Adjectives
-                                <br> <span style="font-size: 75%">This is a
+                                </div>
+                                <div id="adjectives">Common Adjectives
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
-                            <div id="adverbs">Common Adverbs
-                                <br> <span style="font-size: 75%">This is a
+                                </div>
+                                <div id="adverbs">Common Adverbs
+                                    <br> <span style="font-size: 75%">This is a
                   description</span>
 
-                            </div>
+                                </div>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="span12" style="margin-top: 30px; text-align: center;">
-                    <a id="generateButton" class="btn" href="#">Generate</a>
+                    <a id="generateButton" class="btn" href="#">Generate Domain Name Ideas</a>
                 </div>
             </div>
-            <div class="row">
+            <div id="generatedResults" class="row" style="display: none">
                 <div class="span12" style="margin-top: 30px; text-align: center;">
-                    <div class="well">Output and additional instructions go here...</div>
+                    <div id="generatedResults" class="well" style="background: ghostwhite">Output and additional
+                        instructions go here...
+                    </div>
                 </div>
             </div>
         </div>
         <div class="span3" style="padding: 20px; text-align: center;">
-            <div class="well" style="text-align: center">
+            <div style="height: 250; width: 150; color: white; text-align: center; vertical-align: center;">
+                <div style="font-family: 'Carrois Gothic SC', sans-serif; font-size: 300%; text-shadow: 0px 1px 0px #fff, -3px 5px 0px rgba(0,0,0,0.5);">
+                    &nbsp;</div>
+                <div style="font-family: 'Racing Sans One', cursive; font-size: 500%; text-shadow: 0px 3px 0px #fff, -9px 8px 0px rgba(0,0,0,0.5);">
+                    <br/>&nbsp;</div>
+                <br/>
+            </div>
+            <br/><br/>
+
+            <div class="well" style="background: ghostwhite; text-align: center">
                 Ads and donation links go here...
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </div>
@@ -145,16 +178,14 @@
     <hr>
 
     <footer>
-        <p>&copy; Jiffy Studios 2013</p>
+        <p style="color: #ffffff">&copy; Jiffy Studios 2013<br/>Contact</p>
     </footer>
 
 </div>
-<!-- /container -->
 
-<script src="js/vendor/bootstrap.min.js"></script>
-<script src='//code.jquery.com/jquery-1.9.1.js'></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-
+<script src="js/vendor/jquery-1.9.1.min.js"></script>
+<script src="js/vendor/bootstrap-2.3.2.js"></script>
+<script src="js/vendor/jquery-ui-1.10.3.min.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 

@@ -1,14 +1,17 @@
 #selectedElements div.ui-widget-content {
     text-align: center;
 }
+
 #selectedElements div.ui-widget-content div, #availableElements div.ui-widget-content div {
     margin: 10px;
 }
+
 .placeholder {
-    opacity:0.3;
-    filter:alpha(opacity=30);
+    opacity: 0.3;
+    filter: alpha(opacity=30);
     /* IE */
 }
+
 .activatedElement {
     transform: scale(0.75, 0.75);
     /* Firefox and old Opera */
@@ -20,7 +23,7 @@
     /* IE, Firefox, and old Opera */
     -webkit-transition: width 1s, height 1s, -webkit-transform 1s;
     /* Chrome, Safari, and newer Opera*/
-    opacity:0.4;
-    filter:alpha(opacity=40);
+    opacity: 0.4;
+    filter: alpha(opacity=40);
     /* IE */
 }

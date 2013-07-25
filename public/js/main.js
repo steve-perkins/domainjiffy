@@ -40,7 +40,7 @@ $(function () {
                 if (toBeRemoved === true) {
                     if (ui.item.siblings().length <= 1) {
                         // No selected elements will remain, so restore the original placeholder element.
-                        var newPlaceholder = $("<div></div");
+                        var newPlaceholder = $("<div></div>");
                         newPlaceholder.addClass("placeholder");
                         newPlaceholder.append("Drag 1 or 2 elements here");
                         newPlaceholder.button();
@@ -63,12 +63,15 @@ $(function () {
 
     // Make sure that we can actually determine which items/elements are selected
     $("#generateButton").click(function () {
+        $("#generatedResults").hide();
+        $("#generatedResults div div.well").html("");
+        $("#generatedResults").slideDown("slow");
         $("#selectedElements div.ui-widget-content div").each(function (index, value) {
             var id = $(value).attr("id");
             if (id === "exactWord" || id === "synonyms") {
                 id += ":" + $(value).find("input").val().replace(/ /g, '');
             }
-            console.log(id);
+            $("#generatedResults div div.well").append(id + "<br/>");
         });
     });
 });
