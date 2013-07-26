@@ -1,5 +1,6 @@
 "use strict";
 $(function () {
+
     // Used to determine when a selected item is being dragged out of its box for removal.
     var toBeRemoved = false;
 
@@ -62,25 +63,42 @@ $(function () {
             tolerance: "pointer"
         });
 
-    // Make sure that we can actually determine which items/elements are selected
+    // Send selected elements and inputs to the server, and display the results
     $("#generateButton").click(function () {
         $("#generatedResults").hide();
         $("#generatedResults div div.well").html("");
         $("#generatedResults").slideDown("slow");
-        $("#selectedElements div.ui-widget-content div").each(function (index, value) {
+        var elements = $("#selectedElements div.ui-widget-content div").map(function () {
             // Parse the selected element type, and additional input if the type takes input.
-            var element = $(value).attr("id");
+            var element = $(this).attr("id");
             if (element === "exactWord" || element === "synonyms") {
-                var input = $(value).find("input").val().replace(/ /g, '');
                 // Basic input sanitize.  Strip all characters except letters, numbers, and dashes.
-                input = input.toLowerCase().replace(/[^-a-z0-9]/g, "");
+                var input = $(this).find("input").val().toLowerCase().replace(/[^-a-z0-9]/g, "");
                 element += ":" + input;
             }
+            return element;
+        }).get().join(",");
 
-            // TODO: Collect all elements and make AJAX call
+        // TODO: Collect all elements and make AJAX call
+        $.ajax({
+            url: "api/generate/" + elements,
+            type: "GET"
+        }).done(function (data) {
+                console.log(JSON.stringify(data));
+                if (data.error) {
+                    $("#generatedResults div div.well").append("<span style='color: red'>" + data.error + "</span>");
+                } else if (data.results.length < 1) {
+                    $("#generatedResults div div.well").append("No results could be generated");
+                } else {
+                    $("#generatedResults div div.well").append(data.results.replace(",", "<br/>"));
+                }
+            }).fail(function (jqXHR, textStatus) {
+                console.log(textStatus);
+                console.log(jqXHR);
+            });
 
-            // TODO: Display results from AJAX call
-            $("#generatedResults div div.well").append(element + "<br/>");
-        });
+        // TODO: Display results from AJAX call
+
     });
+
 });

@@ -3,16 +3,22 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/public/js/vendor/bootstrap-2.3.2.min.js" />
+        <item url="file://$PROJECT_DIR$/routes/index.min.js" />
+        <item url="file://$PROJECT_DIR$/routes/api.min.js" />
+        <item url="file://$PROJECT_DIR$/public/js/vendor/bootstrap-2.3.2.min.min.js" />
         <item url="file://$PROJECT_DIR$/public/js/main.min.js" />
-        <item url="file://$PROJECT_DIR$/public/js/plugins.min.js" />
         <item url="file://$PROJECT_DIR$/app.min.js" />
+        <item url="file://$PROJECT_DIR$/public/js/plugins.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/public/js/vendor/bootstrap-2.3.2.min.js" />
+      <root url="file://$PROJECT_DIR$/routes/index.min.js" />
+      <root url="file://$PROJECT_DIR$/routes/api.min.js" />
+      <root url="file://$PROJECT_DIR$/public/js/vendor/bootstrap-2.3.2.min.min.js" />
       <root url="file://$PROJECT_DIR$/public/js/main.min.js" />
-      <root url="file://$PROJECT_DIR$/public/js/plugins.min.js" />
       <root url="file://$PROJECT_DIR$/app.min.js" />
+      <root url="file://$PROJECT_DIR$/public/js/plugins.min.js" />
     </CLASSES>
     <SOURCES />
   </library>
