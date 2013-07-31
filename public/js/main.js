@@ -71,7 +71,7 @@ $(function () {
         var elements = $("#selectedElements div.ui-widget-content div").map(function () {
             // Parse the selected element type, and additional input if the type takes input.
             var element = $(this).attr("id");
-            if (element === "exactWord" || element === "synonyms") {
+            if (element === "exactword" || element === "similarwords") {
                 // Basic input sanitize.  Strip all characters except letters, numbers, and dashes.
                 var input = $(this).find("input").val().toLowerCase().replace(/[^-a-z0-9]/g, "");
                 element += ":" + input;
@@ -79,26 +79,25 @@ $(function () {
             return element;
         }).get().join(",");
 
-        // TODO: Collect all elements and make AJAX call
         $.ajax({
             url: "api/generate/" + elements,
             type: "GET"
         }).done(function (data) {
                 console.log(JSON.stringify(data));
+                // Display results, or error message
                 if (data.error) {
                     $("#generatedResults div div.well").append("<span style='color: red'>" + data.error + "</span>");
                 } else if (data.results.length < 1) {
                     $("#generatedResults div div.well").append("No results could be generated");
                 } else {
-                    $("#generatedResults div div.well").append(data.results.replace(",", "<br/>"));
+                    data.results.forEach(function(result) {
+                        $("#generatedResults div div.well").append( (result || "") + "<br/>");
+                    });
                 }
             }).fail(function (jqXHR, textStatus) {
                 console.log(textStatus);
                 console.log(jqXHR);
             });
-
-        // TODO: Display results from AJAX call
-
     });
 
 });
