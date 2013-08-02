@@ -91,7 +91,8 @@ $(function () {
                     $("#generatedResults div div.well").append("No results could be generated");
                 } else {
                     data.results.forEach(function(result) {
-                        $("#generatedResults div div.well").append( (result || "") + "<br/>");
+                        var dotcom = (result) ? result + ".com" : "";
+                        $("#generatedResults div div.well").append( dotcom + "<br/>");
                     });
                 }
             }).fail(function (jqXHR, textStatus) {
