@@ -66,7 +66,7 @@ $(function () {
     // Send selected elements and inputs to the server, and display the results
     $("#generateButton").click(function () {
         $("#generatedResults").hide();
-        $("#generatedResults div div.well").html("");
+        $("#generatedResults div div.well").html('<div class="progressIndicator"><div class="bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div></div>');
         $("#generatedResults").slideDown("slow");
         var elements = $("#selectedElements div.ui-widget-content div").map(function () {
             // Parse the selected element type, and additional input if the type takes input.
@@ -83,21 +83,24 @@ $(function () {
             url: "api/generate/" + elements,
             type: "GET"
         }).done(function (data) {
-                console.log(JSON.stringify(data));
                 // Display results, or error message
+                $("#generatedResults div div.well").html("");
                 if (data.error) {
                     $("#generatedResults div div.well").append("<span style='color: red'>" + data.error + "</span>");
                 } else if (data.results.length < 1) {
                     $("#generatedResults div div.well").append("No results could be generated");
                 } else {
                     data.results.forEach(function(result) {
-                        var dotcom = (result) ? result + ".com" : "";
-                        $("#generatedResults div div.well").append( dotcom + "<br/>");
+                        var text = (result && result.basename) ? result.basename + ".com" : ";";
+                        var style = (result && result.dotComInUse) ? "text-decoration: line-through; color: red;" : "color: green;";
+                        var html = "<div style='" + style + "'>" + text + "</div>";
+                        $("#generatedResults div div.well").append(html);
                     });
                 }
             }).fail(function (jqXHR, textStatus) {
-                console.log(textStatus);
-                console.log(jqXHR);
+                $("#generatedResults div div.well").append("<span style='color: red'>" + textStatus + "</span>");
+                //console.log(textStatus);
+                //console.log(jqXHR);
             });
     });
 

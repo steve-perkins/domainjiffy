@@ -8,7 +8,6 @@
   "dependencies": {
     "express": "3.3.4",
     "ejs": "0.8.4",
-    "async": "0.2.9",
     "q": "0.9.6",
     "natural": "0.1.21",
     "WNdb": "3.0.1"

@@ -1,6 +1,6 @@
 "use strict";
 
-var async = require("async"),
+var dns = require("dns"),
     natural = require("natural"),
     Q = require("q");
 
@@ -21,7 +21,6 @@ exports.generateNothing = function (req, res) {
  *
  * @param req
  * @param res
- * @returns {*}
  */
 exports.generate = function (req, res) {
     // Sanitize input, allowing only letters, numbers, and dashes (plus commas and colons as token separators)
@@ -30,47 +29,71 @@ exports.generate = function (req, res) {
     // Generate options for the first element (i.e. "prefix")
     return generateForElement(elementsArray[0])
         .then(function (prefixes) {
-            // Generate options for the second element (i.e. "suffix").  Array will be empty if no second element was selected.
+            // Generate options for the second element (i.e. "suffix").  Resulting array will be empty if there was no second element selected.
             return generateForElement(elementsArray.length > 1 ? elementsArray[1] : null)
                 .then(function (suffixes) {
+                    var deferred = Q.defer();
                     var responseObject = {};
                     responseObject.results = [];
+                    var convertBasenamesToResults = function (basenames) {
+                        var results = basenames.map(function (basename) {
+                            var result = {};
+                            result.basename = basename;
+                            return result;
+                        });
+                        return results;
+                    };
                     if ((prefixes && prefixes.length > 0) && (!suffixes || suffixes.length === 0)) {
                         // Build results using only the first element
-                        responseObject.results = responseObject.results.concat(prefixes);
+                        responseObject.results = responseObject.results.concat(convertBasenamesToResults(prefixes));
+
                     } else if ((!prefixes || prefixes.length <= 0) && (suffixes && suffixes.length > 0)) {
                         // Build results using only the second element (this should be an unreachable use case)
-                        responseObject.results = responseObject.results.concat(suffixes);
+                        responseObject.results = responseObject.results.concat(convertBasenamesToResults(suffixes));
+
                     } else if (prefixes && prefixes.length > 0 && suffixes && suffixes.length > 0) {
                         // Build combinations from the pools of possible prefixes *and* suffixes
+                        var combinations = [];
                         for (var prefixIndex = 0; prefixIndex < prefixes.length; prefixIndex++) {
                             for (var suffixIndex = 0; suffixIndex < suffixes.length; suffixIndex++) {
-                                responseObject.results.push(prefixes[prefixIndex] + suffixes[suffixIndex]);
+                                combinations.push(prefixes[prefixIndex] + suffixes[suffixIndex]);
                             }
                         }
-                        // Shuffle the results, and limit them to 100
-                        responseObject.results.sort(function () {
-                            return 0.5 - Math.random();
-                        });
-                        if (responseObject.results.length > 100) {
-                            responseObject.results.length = 100;
-                        }
+                        responseObject.results = responseObject.results.concat(convertBasenamesToResults(combinations));
                     }
-                    // Send the results with the HTTP response.
-                    res.send(responseObject);
-
-                    // TODO: Add another link in the chain to check the whois status of each domain name's ".com" version.
-
+                    // Shuffle the results, and limit them to 50 before sending them with the HTTP response.
+                    responseObject.results.sort(function () {
+                        return 0.5 - Math.random();
+                    });
+                    if (responseObject.results.length > 50) {
+                        responseObject.results.length = 50;
+                    }
+                    deferred.resolve(responseObject);
+                    return deferred.promise;
+                }).then(function (responseObject) {
+                    // Check DNS for the ".com" version of each name as a loose test of whether it's in use.
+                    var promises = responseObject.results.map(function (result) {
+                        var deferred = Q.defer();
+                        dns.resolve4(result.basename + ".com", function(err, lookup) {
+                            result.dotComInUse = (!err && lookup && lookup.length > 0) ? true : false;
+                            deferred.resolve(result);
+                        });
+                        return deferred.promise;
+                    });
+                    // Return the results via the HTTP response.
+                    return Q.all(promises).then(function (results) {
+                        responseObject.results = results;
+                        res.send(responseObject);
+                    });
                 });
-        });
-
+        }); // end of "function(prefixes)" block
 };
 
 /**
  * Private function called by 'generate' to generate possibilities for one particular element.
  *
  * @param element
- * @returns {Function|promise|promise|Q.promise|Function}
+ * @returns {Q.promise}
  */
 function generateForElement(element) {
 
@@ -106,23 +129,19 @@ function generateForElement(element) {
             throw "No text was entered in the 'Similar Words' element.  Please type a word in the text box for which you would like to see similar words included in your results.";
         } else {
             var wordnet = new natural.WordNet();
+            // Find all definition entries in WordNet
             wordnet.lookup(element.split(":")[1], function (entries) {
-
-                // TODO: Is there a promise-based equivalent for the concatenation below, so the "async" module could be eliminated in favor of "Q" alone?
-
-                async.concat(entries, function (entry, callback) {
-                    callback(null, entry.synonyms);
-                }, function (err, rawSynonyms) {
-                    var synonyms = [ element.split(":")[1] ];
-                    for (var index = 0; rawSynonyms && index < rawSynonyms.length; index++) {
-                        var synonym = rawSynonyms[index].toLowerCase().replace(/[^a-z0-9]/g, "");
+                var synonyms = [ element.split(":")[1] ];
+                // Concat all synonyms found for each definition, including the original word itself, and stripping all non-alphanumeric characters.
+                entries.map(function (entry) {
+                    for (var index = 0; entry.synonyms && index < entry.synonyms.length; index++) {
+                        var synonym = entry.synonyms[index].toLowerCase().replace(/[^a-z0-9]/g, "");
                         if (synonyms.indexOf(synonym) === -1) {
                             synonyms.push(synonym);
                         }
                     }
-                    deferred.resolve(synonyms);
                 });
-
+                deferred.resolve(synonyms);
             });
         }
     } else {
