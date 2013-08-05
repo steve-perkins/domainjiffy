@@ -90,6 +90,7 @@ $(function () {
                 } else if (data.results.length < 1) {
                     $("#generatedResults div div.well").append("No results could be generated");
                 } else {
+                    $("#generatedResults div div.well").append( $("#resultsDescription").html() + "<br/>" );
                     data.results.forEach(function(result) {
                         var text = (result && result.basename) ? result.basename + ".com" : ";";
                         var style = (result && result.dotComInUse) ? "text-decoration: line-through; color: red;" : "color: green;";
