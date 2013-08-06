@@ -66,8 +66,10 @@ $(function () {
     // Send selected elements and inputs to the server, and display the results
     $("#generateButton").click(function () {
         $("#generatedResults").hide();
-        $("#generatedResults div div.well").html('<div class="progressIndicator"><div class="bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div></div>');
         $("#generatedResults").slideDown("slow");
+        $("#generatedResults div div.well").html('<div id="progressIndicator" class="progressIndicator"><div class="bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div></div>');
+        $(document.body).scrollTop($("#progressIndicator").offset().top);
+
         var elements = $("#selectedElements div.ui-widget-content div").map(function () {
             // Parse the selected element type, and additional input if the type takes input.
             var element = $(this).attr("id");
@@ -91,6 +93,7 @@ $(function () {
                     $("#generatedResults div div.well").append("No results could be generated");
                 } else {
                     $("#generatedResults div div.well").append( $("#resultsDescription").html() + "<br/>" );
+                    var deferred = $.Deferred();
                     data.results.forEach(function(result) {
                         var text = (result && result.basename) ? result.basename + ".com" : ";";
                         var style = (result && result.dotComInUse) ? "text-decoration: line-through; color: red;" : "color: green;";
