@@ -1,4 +1,4 @@
-domainjiffy
+Domain Jiffy
 ===========
 
-The domainjiffy.com web application
+The domainjiffy.com web application.
